@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [ "$(cat /proc/1/sched 2>/dev/null | head -n 1)" == 'php (1, #threads: 1)' ]; then
+    ./console.php "$@"
+else
+    docker compose exec php ./console.php "$@"
+fi
