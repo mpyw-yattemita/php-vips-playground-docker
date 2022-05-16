@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
-use Imagine\Vips\Imagine;
+use Jcupitt\Vips\Image;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,17 +33,12 @@ class CreateAnimationCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $imagine = new Imagine();
+        $sources = array_map(
+            fn (string $filename) => Image::newFromFile($filename),
+            [$input->getArgument('source'), ...$input->getArgument('sources')],
+        );
 
-        $image = $imagine->open($input->getArgument('source'));
-
-        foreach ($input->getArgument('sources') as $argument) {
-            $image->layers()->add($imagine->open($argument));
-        }
-
-        $image->save($input->getArgument('destination'), array(
-            'animated' => true,
-        ));
+        Image::arrayjoin($sources)->copy()->writeToFile($input->getArgument('destination'), []);
 
         return 0;
     }

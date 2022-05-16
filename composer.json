@@ -12,7 +12,6 @@
     "require": {
         "symfony/console": "^6.0",
         "jcupitt/vips": "^2.0",
-        "kcs/class-finder": "^0.3.1",
-        "rokka/imagine-vips": "^0.20.0"
+        "kcs/class-finder": "^0.3.1"
     }
 }
