@@ -1,0 +1,9 @@
+version: Compose-Spec
+
+services:
+  php:
+    build: .
+    image: php-vips-playground-docker
+    tty: true
+    volumes:
+      - .:/code:cached
