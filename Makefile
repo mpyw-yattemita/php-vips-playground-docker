@@ -20,7 +20,7 @@ setup: ## セットアップ手順をすべて実行
 	@$(MAKE) vendor
 
 # コンテナの基本操作
-.PHONY: build up stop down exec run
+.PHONY: build up stop down exec composer run
 build: ## イメージのビルド
 	@docker compose build $(call ARGS)
 up: ## コンテナの起動
@@ -32,15 +32,15 @@ down: ## コンテナの削除
 exec: ## 任意コマンドを実行
 	@docker compose exec php $(call ARGS)
 composer: ## Composer コマンドを実行
-	@docker compose exec php composer $(call ARGS)
+	@$(MAKE) composer $(call ARGS)
 run: ## Symfony コマンドを実行
-	@docker compose exec php ./symfony-console-entrypoint.php $(call ARGS)
+	@$(MAKE) ./symfony-console-entrypoint.php $(call ARGS)
 
 # vendor
 .PHONY: vendor
 vendor: ## vendor を準備
 	@$(MAKE) up
-	@./d composer install
+	@$(MAKE) composer install
 
 # 疑似引数を使用するために必要
 .PHONY: %
